@@ -2,6 +2,7 @@ extends Node
 
 @export var square_scene : PackedScene
 @export var grid_side : int = 8
+@export var ckeck_skin : bool
 @onready var scene : Node2D = get_node("scene")
 @onready var squares_parent : Node2D = scene.get_node("squares")
 @onready var knight : Node2D = scene.get_node("knight")
@@ -17,7 +18,7 @@ func _ready() -> void:
 	init()
 
 func _process(delta: float) -> void:
-	knight.scale = Vector2(1,1) * square_side_length
+	knight.scale = Vector2(1,1) * 0.9 * square_side_length
 	var mouse_position : Vector2i = (scene.get_local_mouse_position()-squares_parent.position)/square_side_length
 	if not knight_placed:
 		knight.get_node("form/arrows").hide()
@@ -70,6 +71,8 @@ func _process(delta: float) -> void:
 							grid[mouse_position.x + mouse_position.y*grid_side] = false
 							change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
 							actions.append(mouve)
+							if grid.find(true) == -1:
+								print(actions)
 
 func change_color_of_square(position : Vector2, color : Color):
 	for square in squares_parent.get_children():
@@ -89,7 +92,9 @@ func make_grid():
 	square_side_length = window.size.y/grid_side
 	for x in grid_side:
 		for y in grid_side:
-			var color : Color = Color.WHITE#
+			var color : Color = Color.WHITE
+			if ckeck_skin:
+				color = Color.BLACK
 			if (y+x) % 2 == 0:
 				color = Color.WHITE
 			create_square(Vector2(x,y)*square_side_length, color)
@@ -100,6 +105,10 @@ func create_square(position : Vector2, color : Color):
 	square.position = position + Vector2(1,1)*square_side_length/2
 	square.scale = Vector2(1,1) * square_side_length
 	square.modulate = color
+	if ckeck_skin:
+		square.get_node("form/square").scale = Vector2(1,1)
+	else :
+		square.get_node("form/square").scale = Vector2(1,1)*0.9
 	squares_parent.add_child(square)
 
 
@@ -116,7 +125,9 @@ func return_action() -> void:
 		}
 		
 	if actions.size() != 0:
-		var color : Color = Color.WHITE#
+		var color : Color = Color.WHITE
+		if ckeck_skin:
+			color = Color.BLACK
 		grid[knight_position.x + knight_position.y*grid_side] = true
 		if (knight_position.x+knight_position.y) % 2 == 0:
 			color = Color.WHITE
@@ -125,7 +136,9 @@ func return_action() -> void:
 		knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
 		actions.remove_at(actions.size()-1)
 	else:
-		var color : Color = Color.WHITE#
+		var color : Color = Color.WHITE
+		if ckeck_skin:
+			color = Color.BLACK
 		grid[knight_position.x + knight_position.y*grid_side] = true
 		if (knight_position.x+knight_position.y) % 2 == 0:
 			color = Color.WHITE

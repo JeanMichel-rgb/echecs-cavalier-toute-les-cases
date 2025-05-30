@@ -19,8 +19,10 @@ texture = ExtResource("1_53371")
 
 [node name="arrows" type="Node2D" parent="form"]
 modulate = Color(0, 0.607843, 1, 0.501961)
+scale = Vector2(1.111, 1.111)
 
 [node name="u_l" type="Node2D" parent="form/arrows"]
+scale = Vector2(1, 1.15)
 
 [node name="u" type="MeshInstance2D" parent="form/arrows/u_l"]
 position = Vector2(0, -1.25)
@@ -34,7 +36,7 @@ scale = Vector2(0.5, 1)
 mesh = SubResource("PrismMesh_5tldv")
 
 [node name="u_r" type="Node2D" parent="form/arrows"]
-scale = Vector2(-1, 1)
+scale = Vector2(-1, 1.15)
 
 [node name="u" type="MeshInstance2D" parent="form/arrows/u_r"]
 position = Vector2(0, -1.25)
@@ -49,6 +51,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="r_u" type="Node2D" parent="form/arrows"]
 rotation = 1.5708
+scale = Vector2(1, 1.15)
 
 [node name="r" type="MeshInstance2D" parent="form/arrows/r_u"]
 position = Vector2(0, -1.25)
@@ -63,7 +66,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="r_d" type="Node2D" parent="form/arrows"]
 rotation = 1.5708
-scale = Vector2(-1, 1)
+scale = Vector2(-1, 1.15)
 
 [node name="r" type="MeshInstance2D" parent="form/arrows/r_d"]
 position = Vector2(0, -1.25)
@@ -78,6 +81,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="d_r" type="Node2D" parent="form/arrows"]
 rotation = 3.14159
+scale = Vector2(1, 1.15)
 
 [node name="d" type="MeshInstance2D" parent="form/arrows/d_r"]
 position = Vector2(0, -1.25)
@@ -92,7 +96,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="d_l" type="Node2D" parent="form/arrows"]
 rotation = 3.14159
-scale = Vector2(-1, 1)
+scale = Vector2(-1, 1.15)
 
 [node name="d" type="MeshInstance2D" parent="form/arrows/d_l"]
 position = Vector2(0, -1.25)
@@ -107,6 +111,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="l_d" type="Node2D" parent="form/arrows"]
 rotation = 4.71239
+scale = Vector2(1, 1.15)
 
 [node name="l" type="MeshInstance2D" parent="form/arrows/l_d"]
 position = Vector2(0, -1.25)
@@ -121,7 +126,7 @@ mesh = SubResource("PrismMesh_5tldv")
 
 [node name="l_u" type="Node2D" parent="form/arrows"]
 rotation = 4.71239
-scale = Vector2(-1, 1)
+scale = Vector2(-1, 1.15)
 
 [node name="l" type="MeshInstance2D" parent="form/arrows/l_u"]
 position = Vector2(0, -1.25)
