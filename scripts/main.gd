@@ -89,7 +89,7 @@ func make_grid():
 	square_side_length = window.size.y/grid_side
 	for x in grid_side:
 		for y in grid_side:
-			var color : Color = Color.BLACK
+			var color : Color = Color.WHITE#
 			if (y+x) % 2 == 0:
 				color = Color.WHITE
 			create_square(Vector2(x,y)*square_side_length, color)
@@ -116,7 +116,7 @@ func return_action() -> void:
 		}
 		
 	if actions.size() != 0:
-		var color : Color = Color.BLACK
+		var color : Color = Color.WHITE#
 		grid[knight_position.x + knight_position.y*grid_side] = true
 		if (knight_position.x+knight_position.y) % 2 == 0:
 			color = Color.WHITE
@@ -125,7 +125,7 @@ func return_action() -> void:
 		knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
 		actions.remove_at(actions.size()-1)
 	else:
-		var color : Color = Color.BLACK
+		var color : Color = Color.WHITE#
 		grid[knight_position.x + knight_position.y*grid_side] = true
 		if (knight_position.x+knight_position.y) % 2 == 0:
 			color = Color.WHITE
