@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu56xvwbnmw2j"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_g3sq3"]
+[ext_resource type="PackedScene" uid="uid://dwyoei8mctwv2" path="res://scenes/slice.tscn" id="2_ae7fd"]
+[ext_resource type="PackedScene" uid="uid://c44bk4yxjrhws" path="res://scenes/knight.tscn" id="2_rmfrd"]
+
+[node name="main" type="Node"]
+script = ExtResource("1_g3sq3")
+square_scene = ExtResource("2_ae7fd")
+
+[node name="scene" type="Node2D" parent="."]
+
+[node name="squares" type="Node2D" parent="scene"]
+
+[node name="knight" parent="scene" instance=ExtResource("2_rmfrd")]

@@ -1,0 +1,135 @@
+[gd_scene load_steps=5 format=3 uid="uid://c44bk4yxjrhws"]
+
+[ext_resource type="Texture2D" uid="uid://beofjhm60ntpr" path="res://assets/knight.png" id="1_53371"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_fpr6q"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_pyb5x"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_5tldv"]
+
+[node name="knight" type="Node2D"]
+
+[node name="form" type="Node2D" parent="."]
+
+[node name="knight" type="MeshInstance2D" parent="form"]
+scale = Vector2(1, -1)
+mesh = SubResource("QuadMesh_fpr6q")
+texture = ExtResource("1_53371")
+
+[node name="arrows" type="Node2D" parent="form"]
+modulate = Color(0, 0.607843, 1, 0.501961)
+
+[node name="u_l" type="Node2D" parent="form/arrows"]
+
+[node name="u" type="MeshInstance2D" parent="form/arrows/u_l"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="l" type="MeshInstance2D" parent="form/arrows/u_l"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="u_r" type="Node2D" parent="form/arrows"]
+scale = Vector2(-1, 1)
+
+[node name="u" type="MeshInstance2D" parent="form/arrows/u_r"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="r" type="MeshInstance2D" parent="form/arrows/u_r"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="r_u" type="Node2D" parent="form/arrows"]
+rotation = 1.5708
+
+[node name="r" type="MeshInstance2D" parent="form/arrows/r_u"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="u" type="MeshInstance2D" parent="form/arrows/r_u"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="r_d" type="Node2D" parent="form/arrows"]
+rotation = 1.5708
+scale = Vector2(-1, 1)
+
+[node name="r" type="MeshInstance2D" parent="form/arrows/r_d"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="d" type="MeshInstance2D" parent="form/arrows/r_d"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="d_r" type="Node2D" parent="form/arrows"]
+rotation = 3.14159
+
+[node name="d" type="MeshInstance2D" parent="form/arrows/d_r"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="r" type="MeshInstance2D" parent="form/arrows/d_r"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="d_l" type="Node2D" parent="form/arrows"]
+rotation = 3.14159
+scale = Vector2(-1, 1)
+
+[node name="d" type="MeshInstance2D" parent="form/arrows/d_l"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="l" type="MeshInstance2D" parent="form/arrows/d_l"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="l_d" type="Node2D" parent="form/arrows"]
+rotation = 4.71239
+
+[node name="l" type="MeshInstance2D" parent="form/arrows/l_d"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="d" type="MeshInstance2D" parent="form/arrows/l_d"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")
+
+[node name="l_u" type="Node2D" parent="form/arrows"]
+rotation = 4.71239
+scale = Vector2(-1, 1)
+
+[node name="l" type="MeshInstance2D" parent="form/arrows/l_u"]
+position = Vector2(0, -1.25)
+scale = Vector2(0.5, 1.5)
+mesh = SubResource("QuadMesh_pyb5x")
+
+[node name="u" type="MeshInstance2D" parent="form/arrows/l_u"]
+position = Vector2(-0.75, -1.75)
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+mesh = SubResource("PrismMesh_5tldv")

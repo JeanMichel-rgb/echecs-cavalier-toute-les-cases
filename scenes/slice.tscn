@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwyoei8mctwv2"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_n18dq"]
+
+[node name="slice" type="Node2D"]
+
+[node name="form" type="Node2D" parent="."]
+
+[node name="square" type="MeshInstance2D" parent="form"]
+mesh = SubResource("QuadMesh_n18dq")
