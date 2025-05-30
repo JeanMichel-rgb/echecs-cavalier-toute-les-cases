@@ -7,9 +7,19 @@
 [node name="main" type="Node"]
 script = ExtResource("1_g3sq3")
 square_scene = ExtResource("2_ae7fd")
+grid_side = 7
 
 [node name="scene" type="Node2D" parent="."]
 
 [node name="squares" type="Node2D" parent="scene"]
 
 [node name="knight" parent="scene" instance=ExtResource("2_rmfrd")]
+
+[node name="Button" type="Button" parent="scene"]
+offset_left = 687.0
+offset_top = 180.0
+offset_right = 1035.0
+offset_bottom = 518.0
+text = "return"
+
+[connection signal="pressed" from="scene/Button" to="." method="return_action"]

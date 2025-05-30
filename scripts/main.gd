@@ -10,6 +10,7 @@ var knight_position : Vector2i = Vector2i.ZERO
 var square_side_length : int = 0
 var knight_placed : bool = false
 var grid : Array = []
+var actions : Array = []
 
 
 func _ready() -> void:
@@ -68,6 +69,7 @@ func _process(delta: float) -> void:
 							knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
 							grid[mouse_position.x + mouse_position.y*grid_side] = false
 							change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
+							actions.append(mouve)
 
 func change_color_of_square(position : Vector2, color : Color):
 	for square in squares_parent.get_children():
@@ -99,3 +101,33 @@ func create_square(position : Vector2, color : Color):
 	square.scale = Vector2(1,1) * square_side_length
 	square.modulate = color
 	squares_parent.add_child(square)
+
+
+func return_action() -> void:
+	var knight_mouves : Dictionary = {
+			"u_l" = Vector2i(-1,-2),
+			"u_r" = Vector2i(1,-2),
+			"r_u" = Vector2i(2,-1),
+			"r_d" = Vector2i(2,1),
+			"d_r" = Vector2i(1,2),
+			"d_l" = Vector2i(-1,2),
+			"l_d" = Vector2i(-2,1),
+			"l_u" = Vector2i(-2,-1)
+		}
+		
+	if actions.size() != 0:
+		var color : Color = Color.BLACK
+		grid[knight_position.x + knight_position.y*grid_side] = true
+		if (knight_position.x+knight_position.y) % 2 == 0:
+			color = Color.WHITE
+		change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, color)
+		knight_position -= knight_mouves[actions[-1]]
+		knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
+		actions.remove_at(actions.size()-1)
+	else:
+		var color : Color = Color.BLACK
+		grid[knight_position.x + knight_position.y*grid_side] = true
+		if (knight_position.x+knight_position.y) % 2 == 0:
+			color = Color.WHITE
+		change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, color)
+		knight_placed = false
