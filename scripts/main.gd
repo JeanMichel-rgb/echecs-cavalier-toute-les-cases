@@ -1,18 +1,32 @@
 extends Node
 
 @export var square_scene : PackedScene
+@export var arrow_scene : PackedScene
 @export var grid_side : int = 8
 @export var ckeck_skin : bool
 @onready var scene : Node2D = get_node("scene")
 @onready var squares_parent : Node2D = scene.get_node("squares")
 @onready var knight : Node2D = scene.get_node("knight")
+@onready var arrows : Node2D = scene.get_node("arrows")
 @onready var window : Window = get_window()
+var knight_mouves : Dictionary = {
+			"u_l" = Vector2i(-1,-2),
+			"u_r" = Vector2i(1,-2),
+			"r_u" = Vector2i(2,-1),
+			"r_d" = Vector2i(2,1),
+			"d_r" = Vector2i(1,2),
+			"d_l" = Vector2i(-1,2),
+			"l_d" = Vector2i(-2,1),
+			"l_u" = Vector2i(-2,-1)
+		}
 var knight_position : Vector2i = Vector2i.ZERO
 var square_side_length : int = 0
 var knight_placed : bool = false
 var grid : Array = []
 var actions : Array = []
-
+var actual_arrow : Node2D = null
+var start_mouse_position : Vector2 = Vector2.ZERO
+var is_right_click_pressed : bool = false
 
 func _ready() -> void:
 	init()
@@ -37,16 +51,7 @@ func _process(delta: float) -> void:
 				grid[knight_position.x + knight_position.y*grid_side] = false
 	else :
 		knight.get_node("form/arrows").show()
-		var knight_mouves : Dictionary = {
-			"u_l" = Vector2i(-1,-2),
-			"u_r" = Vector2i(1,-2),
-			"r_u" = Vector2i(2,-1),
-			"r_d" = Vector2i(2,1),
-			"d_r" = Vector2i(1,2),
-			"d_l" = Vector2i(-1,2),
-			"l_d" = Vector2i(-2,1),
-			"l_u" = Vector2i(-2,-1)
-		}
+		
 		var possibilities : Array = []
 		for mouve in knight_mouves:
 			var possible_position : Vector2i = knight_position + knight_mouves[mouve]
@@ -73,6 +78,74 @@ func _process(delta: float) -> void:
 							actions.append(mouve)
 							if grid.find(true) == -1:
 								print(actions)
+		
+		if Input.is_action_just_pressed("right click"):
+			actual_arrow = arrow_scene.instantiate()
+			actual_arrow.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(mouse_position) * square_side_length
+			arrows.add_child(actual_arrow)
+			start_mouse_position = scene.get_local_mouse_position()
+			actual_arrow.scale = Vector2(1,1) * square_side_length
+			is_right_click_pressed = true
+		elif Input.is_action_pressed("right click"):
+			var mouse_slide : Vector2 = scene.get_local_mouse_position() - start_mouse_position
+			if mouse_slide.angle() >= 0:
+				if mouse_slide.angle() > PI/4:
+					if mouse_slide.angle() > PI/2:
+						if mouse_slide.angle() > PI*3/4:
+							#left down
+							actual_arrow.rotation = PI*3/2
+							actual_arrow.get_node("arrow").scale.x = 1
+						else :
+							#down left
+							actual_arrow.rotation = PI
+							actual_arrow.get_node("arrow").scale.x = -1
+					else :
+						#down right
+						actual_arrow.rotation = PI
+						actual_arrow.get_node("arrow").scale.x = 1
+				else :
+					#right down
+					actual_arrow.rotation = PI/2
+					actual_arrow.get_node("arrow").scale.x = -1
+			
+			else :
+				if mouse_slide.angle() < -PI/4:
+					if mouse_slide.angle() < -PI/2:
+						if mouse_slide.angle() < -PI*3/4:
+							#left up
+							actual_arrow.rotation = PI*3/2
+							actual_arrow.get_node("arrow").scale.x = -1
+						else :
+							#up left
+							actual_arrow.rotation = 0
+							actual_arrow.get_node("arrow").scale.x = 1
+					else :
+						#up right
+						actual_arrow.rotation = 0
+						actual_arrow.get_node("arrow").scale.x = -1
+				else :
+					#right up
+					actual_arrow.rotation = PI/2
+					actual_arrow.get_node("arrow").scale.x = 1
+		
+		elif is_right_click_pressed:
+			is_right_click_pressed = false
+			var is_arrow_already_created : bool = false
+			for arrow in arrows.get_children():
+				if not is_arrow_already_created:
+					if arrow != actual_arrow:
+						if arrow.global_transform == actual_arrow.global_transform:
+							if arrow.get_node("arrow").global_transform == actual_arrow.get_node("arrow").global_transform:
+								actual_arrow.queue_free()
+								arrow.queue_free()
+								is_arrow_already_created = true
+		
+		
+		if Input.is_action_just_pressed("ui_cancel"):
+			for arrow in arrows.get_children():
+				arrow.queue_free()
+		
+		
 
 func change_color_of_square(position : Vector2, color : Color):
 	for square in squares_parent.get_children():
@@ -90,6 +163,8 @@ func init():
 func make_grid():
 	grid = []
 	square_side_length = window.size.y/grid_side
+	if window.size.y > window.size.x:
+		square_side_length = window.size.x/grid_side
 	for x in grid_side:
 		for y in grid_side:
 			var color : Color = Color.WHITE
@@ -113,17 +188,6 @@ func create_square(position : Vector2, color : Color):
 
 
 func return_action() -> void:
-	var knight_mouves : Dictionary = {
-			"u_l" = Vector2i(-1,-2),
-			"u_r" = Vector2i(1,-2),
-			"r_u" = Vector2i(2,-1),
-			"r_d" = Vector2i(2,1),
-			"d_r" = Vector2i(1,2),
-			"d_l" = Vector2i(-1,2),
-			"l_d" = Vector2i(-2,1),
-			"l_u" = Vector2i(-2,-1)
-		}
-		
 	if actions.size() != 0:
 		var color : Color = Color.WHITE
 		if ckeck_skin:

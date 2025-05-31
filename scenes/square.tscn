@@ -2,7 +2,7 @@
 
 [sub_resource type="QuadMesh" id="QuadMesh_n18dq"]
 
-[node name="slice" type="Node2D"]
+[node name="square" type="Node2D"]
 
 [node name="form" type="Node2D" parent="."]
 
