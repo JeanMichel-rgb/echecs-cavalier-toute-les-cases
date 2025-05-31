@@ -9,7 +9,8 @@
 script = ExtResource("1_g3sq3")
 square_scene = ExtResource("2_2bsxm")
 arrow_scene = ExtResource("3_dxmbg")
-grid_side = 7
+grid_side = 11
+ckeck_skin = true
 
 [node name="scene" type="Node2D" parent="."]
 
@@ -23,7 +24,15 @@ grid_side = 7
 offset_left = 687.0
 offset_top = 180.0
 offset_right = 1035.0
-offset_bottom = 518.0
+offset_bottom = 276.0
 text = "return"
 
+[node name="Button2" type="Button" parent="scene"]
+offset_left = 706.0
+offset_top = 299.0
+offset_right = 1030.0
+offset_bottom = 401.0
+text = "cancel return"
+
 [connection signal="pressed" from="scene/Button" to="." method="return_action"]
+[connection signal="pressed" from="scene/Button2" to="." method="return_return_action"]

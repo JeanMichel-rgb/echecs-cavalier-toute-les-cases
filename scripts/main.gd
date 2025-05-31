@@ -24,7 +24,9 @@ var square_side_length : int = 0
 var knight_placed : bool = false
 var grid : Array = []
 var actions : Array = []
+var canceled_actions : Array = []
 var actual_arrow : Node2D = null
+var start_knight_position : Vector2i
 var start_mouse_position : Vector2 = Vector2.ZERO
 var is_right_click_pressed : bool = false
 
@@ -46,6 +48,7 @@ func _process(delta: float) -> void:
 			if Input.is_action_just_pressed("click"):
 				knight_placed = true
 				knight_position = mouse_position
+				start_knight_position = knight_position
 				knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
 				change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
 				grid[knight_position.x + knight_position.y*grid_side] = false
@@ -76,8 +79,10 @@ func _process(delta: float) -> void:
 							grid[mouse_position.x + mouse_position.y*grid_side] = false
 							change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
 							actions.append(mouve)
+							canceled_actions = []
+							print(canceled_actions)
 							if grid.find(true) == -1:
-								print(actions)
+								print([start_knight_position, actions])
 		
 		if Input.is_action_just_pressed("right click"):
 			actual_arrow = arrow_scene.instantiate()
@@ -127,7 +132,6 @@ func _process(delta: float) -> void:
 					#right up
 					actual_arrow.rotation = PI/2
 					actual_arrow.get_node("arrow").scale.x = 1
-		
 		elif is_right_click_pressed:
 			is_right_click_pressed = false
 			var is_arrow_already_created : bool = false
@@ -198,8 +202,10 @@ func return_action() -> void:
 		change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, color)
 		knight_position -= knight_mouves[actions[-1]]
 		knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
+		canceled_actions.append(actions[-1])
 		actions.remove_at(actions.size()-1)
 	else:
+		canceled_actions.append(start_knight_position)
 		var color : Color = Color.WHITE
 		if ckeck_skin:
 			color = Color.BLACK
@@ -208,3 +214,23 @@ func return_action() -> void:
 			color = Color.WHITE
 		change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, color)
 		knight_placed = false
+
+func return_return_action() -> void:
+	if canceled_actions.size() != 0:
+		if canceled_actions[-1] is Vector2i:
+			knight_position = canceled_actions[-1]
+			knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
+			grid[knight_position.x + knight_position.y*grid_side] = false
+			change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
+			canceled_actions.remove_at(canceled_actions.size()-1)
+			knight_placed = true
+		else :
+			var mouve = canceled_actions[-1]
+			knight_position += knight_mouves[mouve]
+			knight.position = squares_parent.position + Vector2(1,1)*square_side_length/2 + Vector2(knight_position) * square_side_length
+			grid[knight_position.x + knight_position.y*grid_side] = false
+			change_color_of_square(Vector2(knight_position)*square_side_length + Vector2(1,1)*square_side_length/2, Color.RED)
+			actions.append(mouve)
+			canceled_actions.remove_at(canceled_actions.size()-1)
+			if grid.find(true) == -1:
+				print([start_knight_position, actions])
