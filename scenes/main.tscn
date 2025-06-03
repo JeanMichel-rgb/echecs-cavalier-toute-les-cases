@@ -9,7 +9,7 @@
 script = ExtResource("1_g3sq3")
 square_scene = ExtResource("2_2bsxm")
 arrow_scene = ExtResource("3_dxmbg")
-grid_side = 11
+grid_side = 110
 ckeck_skin = true
 
 [node name="scene" type="Node2D" parent="."]

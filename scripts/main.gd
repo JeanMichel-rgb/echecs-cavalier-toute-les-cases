@@ -32,6 +32,7 @@ var is_right_click_pressed : bool = false
 
 func _ready() -> void:
 	init()
+	print("ta mere")
 
 func _process(delta: float) -> void:
 	knight.scale = Vector2(1,1) * 0.9 * square_side_length
